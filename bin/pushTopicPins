@@ -118,12 +118,14 @@ function getMenuData () {
 
         for (var j = 0; j < menuData.outlets.length; j++) {
           console.log('Outlet Iteration j: ' + j);
+          console.log('Outlet Name: ' + menuData.outlets[j].outlet_name));
           // Add data to the menus object
           menus.name.push(menuData.outlets[j].outlet_name);
 
           var lunchMenu = '';
           var dinnerMenu = '';
 
+          console.log('Number of Products: ' + menuData.outlets[j].menu[i].meals.lunch.length);
           // Format all product names into a single string
           for (var k = 0; k < menuData.outlets[j].menu[i].meals.lunch.length; k++) {
             console.log('Product Iteration k: ' + k);
