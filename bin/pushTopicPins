@@ -108,14 +108,14 @@ function pushTopicPins() {
   // create a new Timeline object with our API key passed as an environment variable
   var timeline = new Timeline();
 
-  for (int i = 0; i < menus.date.length; i++) {
+  for (var i = 0; i < menus.date.length; i++) {
     lunchPin.id = 'uwaterloo-lunch-menu-' + menus.date[i];
     lunchPin.time = menus.lunchTime[i];
 
     dinnerPin.id = 'uwaterloo-dinner-menu-' + menus.date[i];
     lunchPin.time = menus.lunchTime[i];
 
-    for (int j = 0; j < menus.name.length; j++) {
+    for (var j = 0; j < menus.name.length; j++) {
       lunchPin.layout.headings.push(menus.name[j]);
       lunchPin.layout.paragraphs.push(menus.lunch[j]);
 
