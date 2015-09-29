@@ -22,6 +22,7 @@ function pushTopicPins() {
 
   console.log('There are ' + menus.date.length + ' of each menu pin to send.');
   for (var i = 0; i < menus.date.length; i++) {
+    console.log('Date iteration: ' + i);
     var numOutlets = menus.name.length / menus.date.length;
 
     // Clear data from previous pin
@@ -30,13 +31,17 @@ function pushTopicPins() {
     var dinnerHeadings = [];
     var dinnerParagraphs = [];
 
-    for (var j = i * numOutlets; j < ((i + 1) * numOutlets); j++) {
+    for (var j = (i * numOutlets); j < ((i + 1) * numOutlets); j++) {
       lunchHeadings.push(menus.name[j]);
       lunchParagraphs.push(menus.lunch[j]);
 
       dinnerHeadings.push(menus.name[j]);
       dinnerParagraphs.push(menus.dinner[j]);
     }
+    console.log('lunchHeadings: ' + lunchHeadings);
+    console.log('lunchParagraphs: ' + lunchParagraphs);
+    console.log('dinnerHeadings: ' + dinnerHeadings);
+    console.log('dinnerParagraphs: ' + dinnerParagraphs);
 
     var lunchPin = new Timeline.Pin({
       id: 'uwaterloo-lunch-menu-' + menus.date[i],
@@ -61,15 +66,15 @@ function pushTopicPins() {
       })
     });
 
-    console.log('Sending pin: ' + JSON.stringify(lunchPin));
-    console.log('Sending pin: ' + JSON.stringify(dinnerPin));
+    console.log('Sending lunch pin: ' + JSON.stringify(lunchPin));
+    console.log('Sending dinner pin: ' + JSON.stringify(dinnerPin));
 
     timeline.sendSharedPin(['uwaterloo_lunch_menu'], lunchPin, function (err, body, resp) {
       if(err) {
         console.error(err);
       }
       else {
-        //res.send('Sent pin: ' + JSON.stringify(lunchPin));
+        console.log('Sent lunch pin');
       }
     });
     timeline.sendSharedPin(['uwaterloo_dinner_menu'], dinnerPin, function (err, body, resp) {
@@ -77,7 +82,7 @@ function pushTopicPins() {
         console.error(err);
       }
       else {
-        //res.send('Sent pin: ' + JSON.stringify(dinnerPin));
+        console.log('Sent dinner pin');
       }
     });
   }
@@ -97,7 +102,7 @@ function getMenuData () {
 
     //console.log('Number of outlets ' + menuData.outlets.length);
     for (var i = 0; i < 5; i++) {
-      console.log('Date Iteration i: ' + i);
+      //console.log('Date Iteration i: ' + i);
       // Get lunch and dinner menu dates from first outlet in the array
       var lunchMenuDate = new Date(menuData.outlets[0].menu[i].date + 'T15:30Z');
       var dinnerMenuDate = new Date(menuData.outlets[0].menu[i].date + 'T21:30Z');
@@ -110,7 +115,7 @@ function getMenuData () {
         menus.dinnerTime.push(dinnerMenuDate.toISOString());
 
         for (var j = 0; j < menuData.outlets.length; j++) {
-          console.log('Outlet Iteration j: ' + j);
+          //console.log('Outlet Iteration j: ' + j);
           // Add data to the menus object
           menus.name.push(menuData.outlets[j].outlet_name);
 
@@ -119,7 +124,7 @@ function getMenuData () {
 
           // Format all product names into a single string
           for (var k = 0; k < menuData.outlets[j].menu[i].meals.lunch.length; k++) {
-            console.log('Product Iteration k: ' + k);
+            //console.log('Product Iteration k: ' + k);
             if (k == 0) {
               lunchMenu = menuData.outlets[j].menu[i].meals.lunch[k].product_name;
               dinnerMenu = menuData.outlets[j].menu[i].meals.dinner[k].product_name;
@@ -129,8 +134,8 @@ function getMenuData () {
               dinnerMenu += ', ' + menuData.outlets[j].menu[i].meals.dinner[k].product_name;
             }
           }
-          console.log('Formatted lunch menu: ' + lunchMenu);
-          console.log('Formatted dinner menu: ' + dinnerMenu);
+          //console.log('Formatted lunch menu: ' + lunchMenu);
+          //console.log('Formatted dinner menu: ' + dinnerMenu);
 
           menus.lunch.push(lunchMenu);
           menus.dinner.push(dinnerMenu);
@@ -138,7 +143,7 @@ function getMenuData () {
         count++;
       }
       else if (count >= MENU_LIMIT) {
-        console.log('Exceeded menu limit, exiting');
+        //console.log('Exceeded menu limit, exiting');
         break;
       }
     }
