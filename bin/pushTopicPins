@@ -132,10 +132,12 @@ function getMenuData () {
             if (k == 0) {
               lunchMenu = menuData.outlets[j].menu[i].meals.lunch[k].product_name;
               dinnerMenu = menuData.outlets[j].menu[i].meals.dinner[k].product_name;
+              console.log('Added ' + menuData.outlets[j].menu[i].meals.lunch[k].product_name + ' and ' + menuData.outlets[j].menu[i].meals.dinner[k].product_name);
             }
             else {
               lunchMenu += ', ' + menuData.outlets[j].menu[i].meals.lunch[k].product_name;
               dinnerMenu += ', ' + menuData.outlets[j].menu[i].meals.dinner[k].product_name;
+              console.log('Added ' + menuData.outlets[j].menu[i].meals.lunch[k].product_name + ' and ' + menuData.outlets[j].menu[i].meals.dinner[k].product_name);
             }
           }
           console.log('Formatted lunch menu: ' + lunchMenu);
