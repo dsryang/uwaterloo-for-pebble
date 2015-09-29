@@ -21,9 +21,9 @@ function pushTopicPins() {
   // create a new Timeline object with our API key passed as an environment variable
   var timeline = new Timeline();
 
-  console.log('There are ' + menus.date.length + ' of each menu pin to send.');
+  //console.log('There are ' + menus.date.length + ' of each menu pin to send.');
   for (var i = 0; i < menus.date.length; i++) {
-    console.log('Date iteration: ' + i);
+    //console.log('Date iteration: ' + i);
     var lunchOutlets = menus.lunchName.length / menus.date.length;
     var dinnerOutlets = menus.dinnerName.length / menus.date.length;
 
@@ -41,10 +41,10 @@ function pushTopicPins() {
       dinnerHeadings.push(menus.dinnerName[j]);
       dinnerParagraphs.push(menus.dinner[j]);
     }
-    console.log('lunchHeadings: ' + lunchHeadings);
-    console.log('lunchParagraphs: ' + lunchParagraphs);
-    console.log('dinnerHeadings: ' + dinnerHeadings);
-    console.log('dinnerParagraphs: ' + dinnerParagraphs);
+    //console.log('lunchHeadings: ' + lunchHeadings);
+    //console.log('lunchParagraphs: ' + lunchParagraphs);
+    //console.log('dinnerHeadings: ' + dinnerHeadings);
+    //console.log('dinnerParagraphs: ' + dinnerParagraphs);
 
     var lunchPin = new Timeline.Pin({
       id: 'uwaterloo-lunch-menu-' + menus.date[i],

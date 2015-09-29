@@ -39,7 +39,7 @@ var infoSessionPin = {
       'layout': {
         'type': 'genericReminder',
         'tinyIcon': 'system://images/SCHEDULED_EVENT',
-        'title': '15 minutes to Info Session',
+        'title': 'Info Session',
         'locationName': ''
       }
     }
@@ -118,7 +118,7 @@ function getInfoSessionData () {
   var req = new XMLHttpRequest();
   var URL = UW_ROOT_URL + '/terms/' + getTerm() + '/infosessions.json?key=' + UW_API_KEY;
   req.open('GET', URL);
-  console.log("Opening URL: " + URL);
+  //console.log("Opening URL: " + URL);
 
   req.onload = function() {
     if (req.readyState == 4 && req.status == 200) {
@@ -186,7 +186,7 @@ function sendInfoSessionData () {
   var dates = '';
   var dates_index = [0];
   var amount = infoSessions.date.length;
-  console.log('amount: ' + amount);
+  //console.log('amount: ' + amount);
 
   sortInfoSessions(amount);
 
@@ -218,10 +218,10 @@ function sendInfoSessionData () {
     }
   }
 
-  console.log('employers: ' + employers);
-  console.log('employers_index: ' + employers_index);
-  console.log('dates: ' + dates);
-  console.log('dates_index: ' + dates_index);
+  //console.log('employers: ' + employers);
+  //console.log('employers_index: ' + employers_index);
+  //console.log('dates: ' + dates);
+  //console.log('dates_index: ' + dates_index);
 
   Pebble.sendAppMessage({
     'KEY_RECEIVED_DATA': INFO_SESSION,
@@ -246,7 +246,7 @@ function pushPin (selected) {
   var reminderDate = new Date(infoSessions.date[selected] - (15 * MS_PER_MIN));
   //console.log('reminderDate ' + reminderDate);
   infoSessionPin.reminders[0].time = reminderDate.toISOString();
-  infoSessionPin.reminders[0].layout.title = '15 minutes to ' + infoSessions.details.employer[selected] + ' Info Session';
+  infoSessionPin.reminders[0].layout.title = infoSessions.details.employer[selected] + ' Info Session';
   infoSessionPin.reminders[0].layout.locationName = infoSessions.details.location[selected];
   
   var req = new XMLHttpRequest();
