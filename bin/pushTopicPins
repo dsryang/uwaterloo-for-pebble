@@ -118,7 +118,7 @@ function getMenuData () {
 
         for (var j = 0; j < menuData.outlets.length; j++) {
           console.log('Outlet Iteration j: ' + j);
-          console.log('Outlet Name: ' + menuData.outlets[j].outlet_name));
+          console.log('Outlet Name: ' + menuData.outlets[j].outlet_name);
           // Add data to the menus object
           menus.name.push(menuData.outlets[j].outlet_name);
 
