@@ -54,6 +54,7 @@ function pushTopicPins() {
         paragraphs: lunchParagraphs
       })
     });
+    console.log('Created lunch pin');
     var dinnerPin = new Timeline.Pin({
       id: 'uwaterloo-dinner-menu-' + menus.date[i],
       time: menus.dinnerTime[i],
@@ -65,6 +66,7 @@ function pushTopicPins() {
         paragraphs: dinnerParagraphs
       })
     });
+    console.log('Created dinner pin');
 
     console.log('Sending lunch pin: ' + JSON.stringify(lunchPin));
     console.log('Sending dinner pin: ' + JSON.stringify(dinnerPin));
