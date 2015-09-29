@@ -83,6 +83,7 @@ function getMenuData () {
   uwapi.foodservicesMenu().then(function(menuData){
     console.log('Received ' + JSON.stringify(menuData, null, 2));
 
+    var currentDate = new Date();
     var count = 0;
 
     menus.date = [];
@@ -90,33 +91,44 @@ function getMenuData () {
     menus.lunch = [];
     menus.dinner = [];
 
-    console.log('Number of outlets ' + menuData.outlets.length);
-    for (var i = 0; i < menuData.outlets.length; i++) {
-      var lunchMenuDate = new Date(menuData.outlets[i].menu.date + 'T15:30Z');
-      var dinnerMenuDate = new Date(menuData.outlets[i].menu.date + 'T21:30Z');
+    //console.log('Number of outlets ' + menuData.outlets.length);
+    for (var i = 0; i < 5; i++) {
+      console.log('Date Iteration i: ' + i);
+      // Get lunch and dinner menu dates from first outlet in the array
+      var lunchMenuDate = new Date(menuData.outlets[0].menu[i].date + 'T15:30Z');
+      var dinnerMenuDate = new Date(menuData.outlets[0].menu[i].date + 'T21:30Z');
 
       // Ensure dinner menu is upcoming
       if (count < MENU_LIMIT && dinnerMenuDate.getTime() >= currentDate.getTime()) {
-        menus.date.push(menuData.outlets[i].menu.date);
-        menus.lunchTime.push(lunchMenuDate.toISOString());
-        menus.dinnerTime.push(dinnerMenuDate.toISOString());
-        menus.name.push(menuData.outlets[i].outlet_name);
+        for (var j = 0; j < menuData.outlets.length; j++) {
+          console.log('Outlet Iteration j: ' + j);
+          // Add data to the menus object
+          menus.date.push(menuData.outlets[j].menu[i].date);
+          menus.lunchTime.push(lunchMenuDate.toISOString());
+          menus.dinnerTime.push(dinnerMenuDate.toISOString());
+          menus.name.push(menuData.outlets[j].outlet_name);
 
-        var lunchMenu = '';
-        var dinnerMenu = '';
-        for (var j = 0; j < menuData.outlets[i].menu.meals.lunch.length; j++) {
-          if (j == 0) {
-            lunchMenu = menuData.outlets[i].menu.meals.lunch[j].product_name;
-            dinnerMenu = menuData.outlets[i].menu.meals.dinner[j].product_name;
+          var lunchMenu = '';
+          var dinnerMenu = '';
+
+          // Format all product names into a single string
+          for (var k = 0; k < menuData.outlets[j].menu[i].meals.lunch.length; k++) {
+            console.log('Product Iteration k: ' + k);
+            if (k == 0) {
+              lunchMenu = menuData.outlets[j].menu[i].meals.lunch[k].product_name;
+              dinnerMenu = menuData.outlets[j].menu[i].meals.dinner[k].product_name;
+            }
+            else {
+              lunchMenu += ', ' + menuData.outlets[j].menu[i].meals.lunch[k].product_name;
+              dinnerMenu += ', ' + menuData.outlets[j].menu[i].meals.dinner[k].product_name;
+            }
           }
-          else {
-            lunchMenu += ', ' + menuData.outlets[i].menu.meals.lunch[j].product_name;
-            dinnerMenu += ', ' + menuData.outlets[i].menu.meals.dinner[j].product_name;
-          }
+          console.log('Formatted lunch menu: ' + lunchMenu);
+          console.log('Formatted dinner menu: ' + dinnerMenu);
+
+          menus.lunch.push(lunchMenu);
+          menus.dinner.push(dinnerMenu);
         }
-        menus.lunch.push(lunchMenu);
-        menus.dinner.push(dinnerMenu);
-            
         count++;
       }
       else if (count >= MENU_LIMIT) {
@@ -127,9 +139,9 @@ function getMenuData () {
     }
   }, function(err) {
     console.log('Received error ' + err);
+  }).then(function() {
+    pushTopicPins();
   });
-
-  pushTopicPins();
 }
 
 getMenuData();
