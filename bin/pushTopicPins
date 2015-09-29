@@ -101,7 +101,10 @@ function getMenuData () {
     var count = 0;
 
     menus.date = [];
-    menus.name = [];
+    menus.lunchName = [];
+    menus.dinnerName = [];
+    menus.lunchTime = [];
+    menus.dinnerTime = [];
     menus.lunch = [];
     menus.dinner = [];
 
@@ -158,15 +161,15 @@ function getMenuData () {
               console.log('Added ' + menuData.outlets[j].menu[i].meals.dinner[k].product_name);
             }
           }
-          console.log('Formatted lunch menu: ' + lunchMenu);
-          console.log('Formatted dinner menu: ' + dinnerMenu);
 
           // Only add if there are products listed for the outlet for lunch and dinner
           if (lunchMenu) {
+            console.log('Formatted lunch menu: ' + lunchMenu);
             menus.lunch.push(lunchMenu);
           }
           if (dinnerMenu) {
-            menus.lunch.push(dinnerMenu);
+            console.log('Formatted dinner menu: ' + dinnerMenu);
+            menus.dinner.push(dinnerMenu);
           }
         }
         count++;
