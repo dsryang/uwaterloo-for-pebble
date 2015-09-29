@@ -3,7 +3,7 @@
 var Timeline = require('pebble-api');
 
 var UW_API_KEY = process.env.UW_API_KEY;
-var UW_ROOT_URL = 'https://api.uwaterloo.ca/v2';
+var uwapi = require('uwapi')(UW_API_KEY);
 
 var MENU_LIMIT = 3;
 
@@ -17,69 +17,54 @@ var menus = {
 }
 
 function getMenuData () {
-  var req = new XMLHttpRequest();
-  var URL = UW_ROOT_URL + '/foodservices/menu.json?key=' + UW_API_KEY;
-  req.open('GET', URL);
-  console.log("Opening URL: " + URL);
+  uwapi.foodservicesMenu().then(function(receivedData){
+    console.log('Received ' + receivedData);
 
-  req.onload = function() {
-    if (req.readyState == 4 && req.status == 200) {
-      var received = JSON.parse(req.responseText);
-      if (received.meta.message == 'Request successful') {
-        var menuData = received.data;
-        console.log('Request successful');
-        
-        var sessionDate;
-        var count = 0;
+    var menuData = JSON.parse(receivedData);
+    console.log('Data ' + menuData);
 
-        menus.date = [];
-        menus.name = [];
-        menus.lunch = [];
-        menus.dinner = [];
-        
-        for (var i = 0; i < menuData.length; i++) {
-          lunchMenuDate = new Date(menuData.outlets[i].menu.date + 'T15:30Z');
-          dinnerMenuDate = new Date(menuData.outlets[i].menu.date + 'T21:30Z');
+    var count = 0;
 
-          // Ensure dinner menu is upcoming
-          if (count < MENU_LIMIT && dinnerMenuDate.getTime() >= currentDate.getTime()) {
-            menus.date.push(menuData.outlets[i].menu.date);
-            menus.lunchTime.push(lunchMenuDate.toISOString());
-            menus.dinnerTime.push(dinnerMenuDate.toISOString());
-            menus.name.push(menuData.outlets[i].outlet_name);
+    menus.date = [];
+    menus.name = [];
+    menus.lunch = [];
+    menus.dinner = [];
 
-            var lunchMenu = '';
-            var dinnerMenu = '';
-            for (var j = 0; j < menuData.outlets[i].menu.meals.lunch.length; j++) {
-              if (j == 0) {
-                lunchMenu = menuData.outlets[i].menu.meals.lunch[j].product_name;
-                dinnerMenu = menuData.outlets[i].menu.meals.dinner[j].product_name;
-              }
-              else {
-                lunchMenu += ', ' + menuData.outlets[i].menu.meals.lunch[j].product_name;
-                dinnerMenu += ', ' + menuData.outlets[i].menu.meals.dinner[j].product_name;
-              }
-            }
-            menus.lunch.push(lunchMenu);
-            menus.dinner.push(dinnerMenu);
-            
-            count++;
+    for (var i = 0; i < menuData.data.length; i++) {
+      var lunchMenuDate = new Date(menuData.data.outlets[i].menu.date + 'T15:30Z');
+      var dinnerMenuDate = new Date(menuData.data.outlets[i].menu.date + 'T21:30Z');
+
+      // Ensure dinner menu is upcoming
+      if (count < MENU_LIMIT && dinnerMenuDate.getTime() >= currentDate.getTime()) {
+        menus.date.push(menuData.data.outlets[i].menu.date);
+        menus.lunchTime.push(lunchMenuDate.toISOString());
+        menus.dinnerTime.push(dinnerMenuDate.toISOString());
+        menus.name.push(menuData.data.outlets[i].outlet_name);
+
+        var lunchMenu = '';
+        var dinnerMenu = '';
+        for (var j = 0; j < menuData.data.outlets[i].menu.meals.lunch.length; j++) {
+          if (j == 0) {
+            lunchMenu = menuData.data.outlets[i].menu.meals.lunch[j].product_name;
+            dinnerMenu = menuData.data.outlets[i].menu.meals.dinner[j].product_name;
           }
-          else if (count >= MENU_LIMIT) {
-            break;
+          else {
+            lunchMenu += ', ' + menuData.data.outlets[i].menu.meals.lunch[j].product_name;
+            dinnerMenu += ', ' + menuData.data.outlets[i].menu.meals.dinner[j].product_name;
           }
         }
+        menus.lunch.push(lunchMenu);
+        menus.dinner.push(dinnerMenu);
+            
+        count++;
       }
-      else {
-        console.log('Error: request unsuccessful');
+      else if (count >= MENU_LIMIT) {
+        break;
       }
     }
-    else {
-      console.log('Unable to load with readyState: ' + req.readyState + ', status: ' + req.status);
-    }
-  };
-
-  req.send(null);
+  }, function(err) {
+    console.log('Received error ' + err);
+  });
 }
 
 function pushTopicPins() {
