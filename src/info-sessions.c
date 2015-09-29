@@ -20,19 +20,19 @@ static void info_sessions_menu_draw_row_callback(GContext* ctx, const Layer *cel
 }
 
 static void info_sessions_menu_select_callback(MenuLayer *menu_layer, MenuIndex *cell_index, void *callback_context) {
-  display_action_menu(cell_index->row);
+  display_info_session_action_menu(cell_index->row);
 }
 
 static void info_sessions_window_load(Window *window) {
   // Get the root layer
   Layer *info_session_window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(info_session_window_layer);
-  uint8_t font_height = 48;
+  uint8_t font_height = 24;
   int16_t window_width = bounds.size.w;
   int16_t window_height = bounds.size.h;
 
   // Create text layer
-  s_loading_text_layer = text_layer_create(GRect(0, (window_height / 2) - (font_height / 2), window_width, font_height));
+  s_loading_text_layer = text_layer_create(GRect(0, (window_height / 2) - font_height, window_width, font_height * 2));
   text_layer_set_background_color(s_loading_text_layer, GColorClear);
   text_layer_set_text_alignment(s_loading_text_layer, GTextAlignmentCenter);
   text_layer_set_font(s_loading_text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24));

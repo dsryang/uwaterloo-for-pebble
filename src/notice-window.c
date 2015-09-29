@@ -13,18 +13,35 @@ static void notice_window_load(Window *window) {
   int16_t window_width = bounds.size.w;
   int16_t window_height = bounds.size.h;
 
-  // Create text layer
-  s_notice_text_layer = text_layer_create(GRect(0, (window_height / 2) - (font_height / 2), window_width, font_height));
-  text_layer_set_background_color(s_notice_text_layer, GColorClear);
-  text_layer_set_text_alignment(s_notice_text_layer, GTextAlignmentCenter);
-  text_layer_set_font(s_notice_text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24));
-
   if (s_notice_type == 0) {
+    // Create text layer
+    s_notice_text_layer = text_layer_create(GRect(0, (window_height / 2) - (font_height / 2), window_width, font_height));
     text_layer_set_text(s_notice_text_layer, "Pin Added!");
   }
   else if (s_notice_type == 1) {
-    text_layer_set_text(s_notice_text_layer, "Pin Removed!");
+    // Create text layer
+    s_notice_text_layer = text_layer_create(GRect(0, (window_height / 2) - font_height, window_width, font_height * 2));
+    text_layer_set_text(s_notice_text_layer, "Subscribed to Lunch Menus!");
   }
+  else if (s_notice_type == 2) {
+    // Create text layer
+    s_notice_text_layer = text_layer_create(GRect(0, (window_height / 2) - font_height, window_width, font_height * 2));
+    text_layer_set_text(s_notice_text_layer, "Unsubscribed to Lunch Menus!");
+  }
+  else if (s_notice_type == 3) {
+    // Create text layer
+    s_notice_text_layer = text_layer_create(GRect(0, (window_height / 2) - font_height, window_width, font_height * 2));
+    text_layer_set_text(s_notice_text_layer, "Subscribed to Dinner Menus!");
+  }
+  else if (s_notice_type == 4) {
+    // Create text layer
+    s_notice_text_layer = text_layer_create(GRect(0, (window_height / 2) - font_height, window_width, font_height * 2));
+    text_layer_set_text(s_notice_text_layer, "Unsubscribed to Dinner Menus!");
+  }
+  
+  text_layer_set_background_color(s_notice_text_layer, GColorClear);
+  text_layer_set_text_alignment(s_notice_text_layer, GTextAlignmentCenter);
+  text_layer_set_font(s_notice_text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24));
 
   layer_add_child(notice_window_layer, text_layer_get_layer(s_notice_text_layer));
 }
