@@ -71,7 +71,7 @@ function pushTopicPins() {
     console.log('Sending lunch pin: ' + JSON.stringify(lunchPin));
     console.log('Sending dinner pin: ' + JSON.stringify(dinnerPin));
 
-    timeline.sendSharedPin(['uwaterloo_lunch_menu'], lunchPin, function (err, body, resp) {
+    Timeline.sendSharedPin(['uwaterloo_lunch_menu'], lunchPin, function (err, body, resp) {
       if(err) {
         console.error(err);
       }
@@ -79,7 +79,7 @@ function pushTopicPins() {
         console.log('Sent lunch pin');
       }
     });
-    timeline.sendSharedPin(['uwaterloo_dinner_menu'], dinnerPin, function (err, body, resp) {
+    Timeline.sendSharedPin(['uwaterloo_dinner_menu'], dinnerPin, function (err, body, resp) {
       if(err) {
         console.error(err);
       }
