@@ -19,21 +19,25 @@ var menus = {
 function pushTopicPins() {
   // create a new Timeline object with our API key passed as an environment variable
   var timeline = new Timeline();
-  var lunchHeadings = [];
-  var lunchParagraphs = [];
-  var dinnerHeadings = [];
-  var dinnerParagrahps = [];
-
-  for (var i = 0; i < menus.name.length; i++) {
-    lunchHeadings.push(menus.name[i]);
-    lunchParagraphs.push(menus.lunch[i]);
-
-    dinnerHeadings.push(menus.name[i]);
-    dinnerParagraphs.push(menus.dinner[i]);
-  }
 
   console.log('There are ' + menus.date.length + ' of each menu pin to send.');
   for (var i = 0; i < menus.date.length; i++) {
+    var numOutlets = menus.name.length / menus.date.length;
+
+    // Clear data from previous pin
+    var lunchHeadings = [];
+    var lunchParagraphs = [];
+    var dinnerHeadings = [];
+    var dinnerParagraphs = [];
+
+    for (var j = i * numOutlets; j < ((i + 1) * numOutlets); j++) {
+      lunchHeadings.push(menus.name[j]);
+      lunchParagraphs.push(menus.lunch[j]);
+
+      dinnerHeadings.push(menus.name[j]);
+      dinnerParagraphs.push(menus.dinner[j]);
+    }
+
     var lunchPin = new Timeline.Pin({
       id: 'uwaterloo-lunch-menu-' + menus.date[i],
       time: menus.lunchTime[i],
@@ -81,7 +85,7 @@ function pushTopicPins() {
 
 function getMenuData () {
   uwapi.foodservicesMenu().then(function(menuData){
-    console.log('Received ' + JSON.stringify(menuData, null, 2));
+    //console.log('Received ' + JSON.stringify(menuData, null, 2));
 
     var currentDate = new Date();
     var count = 0;
@@ -100,12 +104,14 @@ function getMenuData () {
 
       // Ensure dinner menu is upcoming
       if (count < MENU_LIMIT && dinnerMenuDate.getTime() >= currentDate.getTime()) {
+        // Add data to the menus object
+        menus.date.push(menuData.outlets[0].menu[i].date);
+        menus.lunchTime.push(lunchMenuDate.toISOString());
+        menus.dinnerTime.push(dinnerMenuDate.toISOString());
+
         for (var j = 0; j < menuData.outlets.length; j++) {
           console.log('Outlet Iteration j: ' + j);
           // Add data to the menus object
-          menus.date.push(menuData.outlets[j].menu[i].date);
-          menus.lunchTime.push(lunchMenuDate.toISOString());
-          menus.dinnerTime.push(dinnerMenuDate.toISOString());
           menus.name.push(menuData.outlets[j].outlet_name);
 
           var lunchMenu = '';
@@ -132,11 +138,11 @@ function getMenuData () {
         count++;
       }
       else if (count >= MENU_LIMIT) {
+        console.log('Exceeded menu limit, exiting');
         break;
       }
-      
-      console.log('Menu Object ' + JSON.stringify(menus, null, 2));
     }
+    console.log('Menu Object ' + JSON.stringify(menus, null, 2));
   }, function(err) {
     console.log('Received error ' + err);
   }).then(function() {
