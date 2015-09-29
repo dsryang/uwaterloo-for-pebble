@@ -43,24 +43,24 @@ function pushTopicPins() {
     console.log('dinnerHeadings: ' + dinnerHeadings);
     console.log('dinnerParagraphs: ' + dinnerParagraphs);
 
-    var lunchPin = new Timeline.Pin({
+    var lunchPin = new timeline.Pin({
       id: 'uwaterloo-lunch-menu-' + menus.date[i],
       time: menus.lunchTime[i],
-      layout: new Timeline.Pin.Layout({
-        type: Timeline.Pin.LayoutType.GENERIC_PIN,
-        tinyIcon: Timeline.Pin.Icon.DINNER_RESERVATION,
+      layout: new timeline.Pin.Layout({
+        type: timeline.Pin.LayoutType.GENERIC_PIN,
+        tinyIcon: timeline.Pin.Icon.DINNER_RESERVATION,
         title: 'Lunch Menu',
         headings: lunchHeadings,
         paragraphs: lunchParagraphs
       })
     });
     console.log('Created lunch pin');
-    var dinnerPin = new Timeline.Pin({
+    var dinnerPin = new timeline.Pin({
       id: 'uwaterloo-dinner-menu-' + menus.date[i],
       time: menus.dinnerTime[i],
-      layout: new Timeline.Pin.Layout({
-        type: Timeline.Pin.LayoutType.GENERIC_PIN,
-        tinyIcon: Timeline.Pin.Icon.DINNER_RESERVATION,
+      layout: new timeline.Pin.Layout({
+        type: timeline.Pin.LayoutType.GENERIC_PIN,
+        tinyIcon: timeline.Pin.Icon.DINNER_RESERVATION,
         title: 'Dinner Menu',
         headings: dinnerHeadings,
         paragraphs: dinnerParagraphs
@@ -71,7 +71,7 @@ function pushTopicPins() {
     console.log('Sending lunch pin: ' + JSON.stringify(lunchPin));
     console.log('Sending dinner pin: ' + JSON.stringify(dinnerPin));
 
-    Timeline.sendSharedPin(['uwaterloo_lunch_menu'], lunchPin, function (err, body, resp) {
+    timeline.sendSharedPin(['uwaterloo_lunch_menu'], lunchPin, function (err, body, resp) {
       if(err) {
         console.error(err);
       }
@@ -79,7 +79,7 @@ function pushTopicPins() {
         console.log('Sent lunch pin');
       }
     });
-    Timeline.sendSharedPin(['uwaterloo_dinner_menu'], dinnerPin, function (err, body, resp) {
+    timeline.sendSharedPin(['uwaterloo_dinner_menu'], dinnerPin, function (err, body, resp) {
       if(err) {
         console.error(err);
       }
