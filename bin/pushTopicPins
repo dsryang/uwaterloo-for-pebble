@@ -128,6 +128,7 @@ function getMenuData () {
           console.log('Number of Products: ' + menuData.outlets[j].menu[i].meals.lunch.length);
           // Format all product names into a single string
           for (var k = 0; k < menuData.outlets[j].menu[i].meals.lunch.length; k++) {
+            console.log('Products: ' + menuData.outlets[j].menu[i].meals.lunch[k].product_name + ' and ' + menuData.outlets[j].menu[i].meals.dinner[k].product_name);
             console.log('Product Iteration k: ' + k);
             if (k == 0) {
               lunchMenu = menuData.outlets[j].menu[i].meals.lunch[k].product_name;
