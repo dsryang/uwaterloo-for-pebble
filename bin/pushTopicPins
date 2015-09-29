@@ -123,12 +123,15 @@ function pushTopicPins() {
       dinnerPin.layout.paragraphs.push(menus.dinner[j]);
     }
 
+    console.log('Sending pin: ' + JSON.stringify(lunchPin));
+    console.log('Sending pin: ' + JSON.stringify(dinnerPin));
+
     timeline.sendSharedPin(['uwaterloo_lunch_menu'], lunchPin, function (err, body, resp) {
       if(err) {
         console.error(err);
       }
       else {
-        res.send('Sent pin: ' + JSON.stringify(lunchPin));
+        //res.send('Sent pin: ' + JSON.stringify(lunchPin));
       }
     });
     timeline.sendSharedPin(['uwaterloo_dinner_menu'], dinnerPin, function (err, body, resp) {
@@ -136,7 +139,7 @@ function pushTopicPins() {
         console.error(err);
       }
       else {
-        res.send('Sent pin: ' + JSON.stringify(dinnerPin));
+        //res.send('Sent pin: ' + JSON.stringify(dinnerPin));
       }
     });
   }
