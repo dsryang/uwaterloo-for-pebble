@@ -46,24 +46,24 @@ function pushTopicPins() {
     console.log('dinnerHeadings: ' + dinnerHeadings);
     console.log('dinnerParagraphs: ' + dinnerParagraphs);
 
-    var lunchPin = new timeline.Pin({
+    var lunchPin = new Timeline.Pin({
       id: 'uwaterloo-lunch-menu-' + menus.date[i],
       time: menus.lunchTime[i],
-      layout: new timeline.Pin.Layout({
-        type: timeline.Pin.LayoutType.GENERIC_PIN,
-        tinyIcon: timeline.Pin.Icon.DINNER_RESERVATION,
+      layout: new Timeline.Pin.Layout({
+        type: Timeline.Pin.LayoutType.GENERIC_PIN,
+        tinyIcon: Timeline.Pin.Icon.DINNER_RESERVATION,
         title: 'Lunch Menu',
         headings: lunchHeadings,
         paragraphs: lunchParagraphs
       })
     });
     console.log('Created lunch pin');
-    var dinnerPin = new timeline.Pin({
+    var dinnerPin = new Timeline.Pin({
       id: 'uwaterloo-dinner-menu-' + menus.date[i],
       time: menus.dinnerTime[i],
-      layout: new timeline.Pin.Layout({
-        type: timeline.Pin.LayoutType.GENERIC_PIN,
-        tinyIcon: timeline.Pin.Icon.DINNER_RESERVATION,
+      layout: new Timeline.Pin.Layout({
+        type: Timeline.Pin.LayoutType.GENERIC_PIN,
+        tinyIcon: Timeline.Pin.Icon.DINNER_RESERVATION,
         title: 'Dinner Menu',
         headings: dinnerHeadings,
         paragraphs: dinnerParagraphs
