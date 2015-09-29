@@ -1,0 +1,130 @@
+#!/usr/bin/env node
+
+var Timeline = require('pebble-api');
+
+var UW_API_KEY = 'API_KEY';
+var UW_ROOT_URL = 'https://api.uwaterloo.ca/v2';
+
+var MENU_LIMIT = 3;
+
+var menus = {
+  date: [],
+  name: [],
+  lunchTime: [],
+  dinnerTime: [],
+  lunch: [],
+  dinner: []
+}
+var lunchPin = new Timeline.Pin({
+  id: '',
+  time: '',
+  layout: new Timeline.Pin.Layout({
+    type: Timeline.Pin.LayoutType.GENERIC_PIN,
+    tinyIcon: Timeline.Pin.Icon.DINNER_RESERVATION,
+    title: 'Lunch Menu',
+    headings: [],
+    paragraphs: []
+  })
+});
+var dinnerPin = new Timeline.Pin({
+  id: '',
+  time: '',
+  layout: new Timeline.Pin.Layout({
+    type: Timeline.Pin.LayoutType.GENERIC_PIN,
+    tinyIcon: Timeline.Pin.Icon.DINNER_RESERVATION,
+    title: 'Dinner Menu',
+    headings: [],
+    paragraphs: []
+  })
+});
+
+function getMenuData () {
+  var req = new XMLHttpRequest();
+  var URL = UW_ROOT_URL + '/foodservices/menu.json?key=' + UW_API_KEY;
+  req.open('GET', URL);
+  console.log("Opening URL: " + URL);
+
+  req.onload = function() {
+    if (req.readyState == 4 && req.status == 200) {
+      var received = JSON.parse(req.responseText);
+      if (received.meta.message == 'Request successful') {
+        var menuData = received.data;
+        console.log('Request successful');
+        
+        var sessionDate;
+        var count = 0;
+
+        menus.date = [];
+        menus.name = [];
+        menus.lunch = [];
+        menus.dinner = [];
+        
+        for (var i = 0; i < menuData.length; i++) {
+          lunchMenuDate = new Date(menuData.outlets[i].menu.date + 'T15:30Z');
+          dinnerMenuDate = new Date(menuData.outlets[i].menu.date + 'T21:30Z');
+
+          // Ensure dinner menu is upcoming
+          if (count < MENU_LIMIT && dinnerMenuDate.getTime() >= currentDate.getTime()) {
+            menus.date.push(menuData.outlets[i].menu.date);
+            menus.lunchTime.push(lunchMenuDate.toISOString());
+            menus.dinnerTime.push(dinnerMenuDate.toISOString());
+            menus.name.push(menuData.outlets[i].outlet_name);
+
+            var lunchMenu = '';
+            var dinnerMenu = '';
+            for (var j = 0; j < menuData.outlets[i].menu.meals.lunch.length) {
+              if (j == 0) {
+                lunchMenu = menuData.outlets[i].menu.meals.lunch[j].product_name;
+                dinnerMenu = menuData.outlets[i].menu.meals.dinner[j].product_name;
+              }
+              else {
+                lunchMenu += ', ' + menuData.outlets[i].menu.meals.lunch[j].product_name;
+                dinnerMenu += ', ' + menuData.outlets[i].menu.meals.dinner[j].product_name;
+              }
+            }
+            menus.lunch.push(lunchMenu);
+            menus.dinner.push(dinnerMenu);
+            
+            count++;
+          }
+          else if (count >= MENU_LIMIT) {
+            break;
+          }
+        }
+      }
+      else {
+        console.log('Error: request unsuccessful');
+      }
+    }
+    else {
+      console.log('Unable to load with readyState: ' + req.readyState + ', status: ' + req.status);
+    }
+  };
+
+  req.send(null);
+}
+
+function pushTopicPins() {
+  // create a new Timeline object with our API key passed as an environment variable
+  var timeline = new Timeline();
+
+  timeline.sendSharedPin(['uwaterloo_lunch_menu'], lunchPin, function (err, body, resp) {
+    if(err) {
+      console.error(err);
+    }
+    else {
+      res.send('Sent pin: ' + JSON.stringify(lunchPin));
+    }
+  });
+  timeline.sendSharedPin(['uwaterloo_dinner_menu'], dinnerPin, function (err, body, resp) {
+    if(err) {
+      console.error(err);
+    }
+    else {
+      res.send('Sent pin: ' + JSON.stringify(dinnerPin));
+    }
+  });
+}
+
+getMenuData();
+pushTopicPins();

@@ -1,0 +1,33 @@
+{
+  "uuid": "0908a40d-8dcf-47c4-b10c-bf82cb75e9ba",
+  "shortName": "UW for Pebble",
+  "longName": "UWaterloo for Pebble",
+  "companyName": "David Yang",
+  "versionLabel": "1.0",
+  "sdkVersion": "3",
+  "targetPlatforms": ["basalt"],
+  "watchapp": {
+    "watchface": false
+  },
+  "appKeys": {
+    "KEY_GET_DATA": 0,
+    "KEY_RECEIVED_DATA": 1,
+    "KEY_ADD_PIN": 2,
+    "KEY_DELETE_PIN": 3,
+    "KEY_PIN_DATA": 4,
+
+    "INFO_SESSION": 10,
+    "IS_EMPLOYER": 11,
+    "IS_EMPLOYER_INDEX": 12,
+    "IS_DATE": 13,
+    "IS_DATE_INDEX": 14,
+    "IS_AMOUNT": 15,
+
+    "LUNCH_MENU": 20,
+
+    "DINNER_MENU": 30
+  },
+  "resources": {
+    "media": []
+  }
+}
