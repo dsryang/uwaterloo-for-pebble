@@ -18,10 +18,10 @@ var menus = {
 
 function getMenuData () {
   uwapi.foodservicesMenu().then(function(receivedData){
-    console.log('Received ' + receivedData);
+    console.log('Received ' + JSON.stringify(receivedData));
 
     var menuData = JSON.parse(receivedData);
-    console.log('Data ' + menuData);
+    console.log('Data ' + JSON.stringify(menuData));
 
     var count = 0;
 
