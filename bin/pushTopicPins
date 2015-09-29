@@ -69,15 +69,15 @@ function pushTopicPins() {
       })
     });
 
-    //console.log('Sending lunch pin ' + i + ' : ' + JSON.stringify(lunchPin, null, 2));
-    //console.log('Sending dinner pin ' + i + ' : ' + JSON.stringify(dinnerPin, null, 2));
+    console.log('Sending lunch pin ' + i + ' : ' + JSON.stringify(lunchPin, null, 2));
+    console.log('Sending dinner pin ' + i + ' : ' + JSON.stringify(dinnerPin, null, 2));
 
     timeline.sendSharedPin(['uwaterloo_lunch_menu'], lunchPin, function (err, body, resp) {
       if(err) {
         console.error(err);
       }
       else {
-        console.log('Sent lunch pin: ' + JSON.stringify(lunchPin, null, 2));
+        //console.log('Sent lunch pin: ' + JSON.stringify(lunchPin, null, 2));
       }
     });
     timeline.sendSharedPin(['uwaterloo_dinner_menu'], dinnerPin, function (err, body, resp) {
@@ -85,7 +85,7 @@ function pushTopicPins() {
         console.error(err);
       }
       else {
-        console.log('Sent dinner pin: ' + JSON.stringify(dinnerPin, null, 2));
+        //console.log('Sent dinner pin: ' + JSON.stringify(dinnerPin, null, 2));
       }
     });
   }
