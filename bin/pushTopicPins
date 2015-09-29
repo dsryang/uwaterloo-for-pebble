@@ -102,9 +102,9 @@ function getMenuData () {
     menus.lunch = [];
     menus.dinner = [];
 
-    //console.log('Number of outlets ' + menuData.outlets.length);
+    console.log('Number of outlets ' + menuData.outlets.length);
     for (var i = 0; i < 5; i++) {
-      //console.log('Date Iteration i: ' + i);
+      console.log('Date Iteration i: ' + i);
       // Get lunch and dinner menu dates from first outlet in the array
       var lunchMenuDate = new Date(menuData.outlets[0].menu[i].date + 'T15:30Z');
       var dinnerMenuDate = new Date(menuData.outlets[0].menu[i].date + 'T21:30Z');
@@ -117,7 +117,7 @@ function getMenuData () {
         menus.dinnerTime.push(dinnerMenuDate.toISOString());
 
         for (var j = 0; j < menuData.outlets.length; j++) {
-          //console.log('Outlet Iteration j: ' + j);
+          console.log('Outlet Iteration j: ' + j);
           // Add data to the menus object
           menus.name.push(menuData.outlets[j].outlet_name);
 
@@ -126,7 +126,7 @@ function getMenuData () {
 
           // Format all product names into a single string
           for (var k = 0; k < menuData.outlets[j].menu[i].meals.lunch.length; k++) {
-            //console.log('Product Iteration k: ' + k);
+            console.log('Product Iteration k: ' + k);
             if (k == 0) {
               lunchMenu = menuData.outlets[j].menu[i].meals.lunch[k].product_name;
               dinnerMenu = menuData.outlets[j].menu[i].meals.dinner[k].product_name;
@@ -136,8 +136,8 @@ function getMenuData () {
               dinnerMenu += ', ' + menuData.outlets[j].menu[i].meals.dinner[k].product_name;
             }
           }
-          //console.log('Formatted lunch menu: ' + lunchMenu);
-          //console.log('Formatted dinner menu: ' + dinnerMenu);
+          console.log('Formatted lunch menu: ' + lunchMenu);
+          console.log('Formatted dinner menu: ' + dinnerMenu);
 
           menus.lunch.push(lunchMenu);
           menus.dinner.push(dinnerMenu);
@@ -145,7 +145,7 @@ function getMenuData () {
         count++;
       }
       else if (count >= MENU_LIMIT) {
-        //console.log('Exceeded menu limit, exiting');
+        console.log('Exceeded menu limit, exiting');
         break;
       }
     }
