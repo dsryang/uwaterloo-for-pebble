@@ -287,4 +287,48 @@ Pebble.addEventListener('appmessage', function (e) {
     console.log('selected: ' + e.payload.KEY_PIN_DATA);
     pushPin(e.payload.KEY_PIN_DATA);
   }
+  else if (e.payload.KEY_SUBSCRIBE_TOPIC === 20) {
+    console.log('Received Subscribe Topic - Lunch Menu Code');
+    Pebble.timelineSubscribe('uwaterloo_lunch_menu', 
+      function () { 
+        console.log('Subscribed to Lunch Menu');
+      },
+      function (error) { 
+        console.log('Error subscribing to Lunch Menu: ' + error);
+      }
+    );
+  }
+  else if (e.payload.KEY_UNSUBSCRIBE_TOPIC === 20) {
+    console.log('Received Unsubscribe Topic - Lunch Menu Code');
+    Pebble.timelineUnsubscribe('uwaterloo_lunch_menu', 
+      function () { 
+        console.log('Unsubscribed to Lunch Menu');
+      },
+      function (error) { 
+        console.log('Error unsubscribing to Lunch Menu: ' + error);
+      }
+    );
+  }
+  else if (e.payload.KEY_SUBSCRIBE_TOPIC === 30) {
+    console.log('Received Subscribe Topic - Dinner Menu Code');
+    Pebble.timelineSubscribe('uwaterloo_dinner_menu', 
+      function () { 
+        console.log('Subscribed to Dinner Menu');
+      },
+      function (error) { 
+        console.log('Error subscribing to Dinner Menu: ' + error);
+      }
+    );
+  }
+  else if (e.payload.KEY_UNSUBSCRIBE_TOPIC === 30) {
+    console.log('Received Unsubscribe Topic - Dinner Menu Code');
+    Pebble.timelineUnsubscribe('uwaterloo_dinner_menu', 
+      function () { 
+        console.log('Unsubscribed to Dinner Menu');
+      },
+      function (error) { 
+        console.log('Error unsubscribing to Dinner Menu: ' + error);
+      }
+    );
+  }
 });

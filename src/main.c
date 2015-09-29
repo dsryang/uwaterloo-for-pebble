@@ -1,5 +1,6 @@
 #include <pebble.h>
 #include "info-sessions.h"
+#include "action-menu.h"
 #include "keys.h"
 
 static Window *s_category_window;
@@ -42,9 +43,13 @@ static void category_menu_select_callback(MenuLayer *menu_layer, MenuIndex *cell
       break;
     case 1:
       // Lunch Menus
+      display_food_menus_action_menu(LUNCH_MENU);
+
       break;
     case 2:
       // Dinner Menus
+      display_food_menus_action_menu(DINNER_MENU);
+
       break;
   }
 }

@@ -3,6 +3,8 @@
 #define KEY_ADD_PIN 2
 #define KEY_DELETE_PIN 3
 #define KEY_PIN_DATA 4
+#define KEY_SUBSCRIBE_TOPIC 5
+#define KEY_UNSUBSCRIBE_TOPIC 6
 
 #define INFO_SESSION 10
 #define IS_EMPLOYER 11
@@ -12,5 +14,7 @@
 #define IS_AMOUNT 15
 
 #define LUNCH_MENU 20
+#define LUNCH_SUBSCRIBED 21
 
 #define DINNER_MENU 30
+#define DINNER_SUBSCRIBED 31
