@@ -72,7 +72,7 @@ function getMenuData () {
 
             var lunchMenu = '';
             var dinnerMenu = '';
-            for (var j = 0; j < menuData.outlets[i].menu.meals.lunch.length) {
+            for (var j = 0; j < menuData.outlets[i].menu.meals.lunch.length; j++) {
               if (j == 0) {
                 lunchMenu = menuData.outlets[i].menu.meals.lunch[j].product_name;
                 dinnerMenu = menuData.outlets[i].menu.meals.dinner[j].product_name;
