@@ -242,6 +242,9 @@ function pushPin (selected) {
   if (infoSessions.details.body[selected]) {
     infoSessionPin.layout.body = infoSessions.details.body[selected];
   }
+  else {
+    infoSessionPin.layout.body = infoSessions.details.body["No description."];
+  }
 
   var reminderDate = new Date(infoSessions.date[selected] - (15 * MS_PER_MIN));
   //console.log('reminderDate ' + reminderDate);
